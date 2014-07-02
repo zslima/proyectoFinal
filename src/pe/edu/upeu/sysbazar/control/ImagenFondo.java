@@ -13,7 +13,7 @@ public class ImagenFondo implements Border{
  
     public ImagenFondo(){
         try {
-            URL imagePath = new URL(getClass().getResource("/imagenes/fond.jpg").toString());
+            URL imagePath = new URL(getClass().getResource("/imagenes/BAZAR2.png").toString());
             back = ImageIO.read(imagePath);
         } catch (Exception ex) {            
         }
