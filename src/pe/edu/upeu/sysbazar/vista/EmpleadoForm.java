@@ -6,7 +6,12 @@
 
 package pe.edu.upeu.sysbazar.vista;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -19,7 +24,7 @@ import pe.edu.upeu.sysbazar.modelo.Empleado;
 
 /**
  *
- * @author juan
+ * @author ivan
  */
 public class EmpleadoForm extends javax.swing.JInternalFrame {
 
@@ -49,7 +54,7 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtcodigo = new javax.swing.JTextField();
+        txtidEmpleado = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtnombre = new javax.swing.JTextField();
@@ -76,7 +81,7 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jDatos = new javax.swing.JTable();
+        tbEmpleado = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -145,11 +150,10 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel2))))
                         .addGap(97, 97, 97)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtidEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -157,7 +161,7 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtidEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -210,16 +214,31 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Delete.png"))); // NOI18N
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnEliminar);
         jToolBar1.add(jSeparator2);
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Search.png"))); // NOI18N
         btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnBuscar);
         jToolBar1.add(jSeparator3);
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Modify.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnModificar);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -240,12 +259,12 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Empleado"));
 
-        jDatos.setModel(new javax.swing.table.DefaultTableModel(
+        tbEmpleado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nombres", "Apellidos", "Direccion", "Genero", "Telefono", "GradoInstr"
+                "ID", "Nombres", "Apellidos", "Sexo", "Direccion", "Telefono", "GradoInstr"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -256,7 +275,12 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jDatos);
+        tbEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbEmpleadoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbEmpleado);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -331,6 +355,99 @@ public class EmpleadoForm extends javax.swing.JInternalFrame {
         }         
 
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void tbEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbEmpleadoMouseClicked
+ if(evt.getButton()==1){
+            int fila = tbEmpleado.getSelectedRow();
+            int celda = (int) tbEmpleado.getValueAt(fila, 0);
+            lista = emp.listarEmpleado(celda);
+            for(int i=0;i<lista.size();i++){
+                txtidEmpleado.setText(""+lista.get(i).getIdEmpleado());
+                txtnombre.setText(lista.get(i).getNombres());
+                txtApellidos.setText(lista.get(i).getApellidos());
+                txtdireccion.setText(lista.get(i).getDireccion());
+                cboGenero.setSelectedItem(lista.get(i).getSexo());
+                txttelefono.setText(""+lista.get(i).getTelefono());
+                cboGradeInst.setSelectedItem(lista.get(i).getGradoInstruccion());
+               
+            }
+        }                // TODO add your handling code here:
+    }//GEN-LAST:event_tbEmpleadoMouseClicked
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        int fil = tbEmpleado.getSelectedRow();
+        if(fil<0){
+            JOptionPane.showMessageDialog(null, "Seleccionar El Empleado a MODIFICAR!");
+        }else{
+            int confirmar=JOptionPane.showConfirmDialog(null, "Esta seguro que desea MODIFICAR el Producto? ");
+            if(JOptionPane.OK_OPTION==confirmar) {
+                int id = Integer.parseInt(txtidEmpleado.getText());
+                String n = txtnombre.getText();
+                String ap = txtApellidos.getText();
+                String dir = txtdireccion.getText();
+                String sex = cboGenero.getSelectedItem().toString();
+                int telf = Integer.parseInt(txttelefono.getText());
+                String grede = cboGradeInst.getSelectedItem().toString();
+                int x = emp.modificarEmpleado(id,n, ap,sex, dir,telf,grede);
+                
+                if(x==1){
+                    JOptionPane.showMessageDialog(null, "Empleado MODIFICADO!");
+                    updateComponets();
+                    limpiar();
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Empleado no se ha MODIFICADO!");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = tbEmpleado.getSelectedRow();
+        if(fila<0){
+            JOptionPane.showMessageDialog(null, "Seleccionar Empleado a ELIMINAR");
+        }else{
+            int confirmar=JOptionPane.showConfirmDialog(null, "Esta seguro que desea ELIMINAR el Usuario? ");
+            if(JOptionPane.OK_OPTION==confirmar) {
+                int celda = (int) tbEmpleado.getValueAt(fila, 0);
+                int x = emp.eliminarEmpleado(celda);
+                if(x==1){
+                    JOptionPane.showMessageDialog(null, "Empleado ELIMINADO!");
+                    updateComponets();
+                    limpiar();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Empleado no ELIMINADO!");
+                }
+            }
+
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+       if (txtnombre.getText().compareTo("")!= 0) {
+            int result = JOptionPane.showConfirmDialog(
+                    this, "Deseas Buscar al Empleado para Modificarlo?",
+                    "Mensaje..!!",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (result == JOptionPane.YES_OPTION) {
+                emp.buscarEmpleado(title);
+                btnNuevo.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(true);
+                btnAgregar.setEnabled(true);
+                
+               
+            }
+            if (result == JOptionPane.NO_OPTION) {
+               emp.buscarEmpleado(title);
+                
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese DNI que Desea Buscar");
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 final void desabilitar (){
    txtApellidos.setEditable(false);
     btnAgregar.setEnabled(false);
@@ -340,7 +457,7 @@ final void desabilitar (){
 }
 
 void limpiar(){
-txtcodigo.setText(null);
+txtidEmpleado.setText(null);
 txtnombre.setText(null);
 txtApellidos.setText(null);
 txtdireccion.setText(null);
@@ -350,7 +467,7 @@ cboGradeInst.setSelectedItem(0);
 }
 final void listarEmpleado(){
     lista = emp.listarEmpleado();
-    model = (DefaultTableModel) jDatos.getModel();
+    model = (DefaultTableModel) tbEmpleado.getModel();
         Object[] user = new Object[7];
         for(int i=0;i<lista.size();i++){
             user[0]=lista.get(i).getIdEmpleado();
@@ -362,7 +479,7 @@ final void listarEmpleado(){
              user[6]=lista.get(i).getGradoInstruccion();
             model.addRow(user);
         }        
-        jDatos.setModel(model);
+        tbEmpleado.setModel(model);
 }
 void LimpiarTabla(DefaultTableModel modelo){
         int a =modelo.getRowCount()-1;
@@ -379,6 +496,7 @@ void LimpiarTabla(DefaultTableModel modelo){
             //modelolista.clear();
             //cargarList();    
     }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -388,7 +506,6 @@ void LimpiarTabla(DefaultTableModel modelo){
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox cboGenero;
     private javax.swing.JComboBox cboGradeInst;
-    private javax.swing.JTable jDatos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -405,9 +522,10 @@ void LimpiarTabla(DefaultTableModel modelo){
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tbEmpleado;
     private javax.swing.JTextField txtApellidos;
-    private javax.swing.JTextField txtcodigo;
     private javax.swing.JTextField txtdireccion;
+    private javax.swing.JTextField txtidEmpleado;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables

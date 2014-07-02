@@ -88,6 +88,7 @@ UsuarioBD ud= new UsuarioBD();
             {
                 MENU m= new MENU();
                 m.setVisible(true);
+                MENU.lblUs.setText(""+usuario);
                 this.dispose();
             }else{
                JOptionPane.showMessageDialog(null,"USUARIO Y CLAVE INCORRECTO.","Error",JOptionPane.ERROR_MESSAGE);

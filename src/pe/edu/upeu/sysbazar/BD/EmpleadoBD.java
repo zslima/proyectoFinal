@@ -103,7 +103,7 @@ public class EmpleadoBD {
         }
         return lista;
     }
-    public int modificarEmpleado(int idE, String nombres, String apellidos, String sex, String direccion, String telefobo, String grade){
+    public int modificarEmpleado(int idE, String nombres, String apellidos, String sex, String direccion, int telefobo, String grade){
     sql="UPDATE Empleado set nombres='"+nombres+"', apellidos='"+apellidos+"', sexo='"+sex+"', direccion='"+direccion+"', "
             + "              telefono='"+telefobo+"', gradoInstruccion='"+grade+"' WHERE idEmpleado='"+idE+"'";
         try {
@@ -155,6 +155,23 @@ public class EmpleadoBD {
             JOptionPane.showMessageDialog(null, "Error: "+ex);
         }   
     return lista;
+    }
+     public int buscarEmpleado(String nom){
+        sql="SELECT *FROM Empleado WHERE nombres='"+nom+"' ";
+        try {
+            cx = Conexion.GetConexion();
+            st = cx.createStatement();
+            rs = st.executeQuery(sql);
+            //cx.close();
+            if(rs.next()){
+                res=1;
+            }else{
+                res=2;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error: "+ex);
+        }    
+    return res;
     }
     
 }

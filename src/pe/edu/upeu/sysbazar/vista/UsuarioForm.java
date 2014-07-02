@@ -23,7 +23,7 @@ import pe.edu.upeu.sysbazar.modelo.Usuario;
  *
  * @author lima
  */
-public final class UsuarioForm extends javax.swing.JInternalFrame {
+public  class UsuarioForm extends javax.swing.JInternalFrame {
   
     EmpleadoBD ep = new EmpleadoBD();
     UsuarioBD udb = new UsuarioBD();
@@ -37,7 +37,8 @@ public final class UsuarioForm extends javax.swing.JInternalFrame {
         initComponents();
         cargarEmpleado();
         listarUsuario();
-        desabilitar();
+        
+        //desabilitar();
         
         
        
@@ -354,8 +355,9 @@ public final class UsuarioForm extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
        limpiar(); // TODO add your handling code here:
+       
     }//GEN-LAST:event_btnNuevoActionPerformed
-final void desabilitar (){
+void desabilitar (){
    txtpass.setEditable(false);
     btnAgregar.setEnabled(true);
     //btnEliminar.setEnabled(false);
@@ -380,7 +382,7 @@ txtpass.setText(null);
 cboEmpleado.setSelectedIndex(0);
 
 }
-final void listarUsuario(){
+void listarUsuario(){
     lista1 = udb.listarUsuario();
     model = (DefaultTableModel) jListaUsuario.getModel();
         Object[] user = new Object[4];

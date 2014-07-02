@@ -49,7 +49,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtcodigo = new javax.swing.JTextField();
+        txtidCliente = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtnombre = new javax.swing.JTextField();
@@ -63,7 +63,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
         jfecha = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jDatos = new javax.swing.JTable();
+        tbCliente = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         btnNuevo = new javax.swing.JButton();
@@ -102,6 +102,8 @@ public class ClienteForm extends javax.swing.JInternalFrame {
 
         jLabel5.setText("fecha-nac");
 
+        jfecha.setDateFormatString("yyyy/MM/dd");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -122,7 +124,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
                             .addComponent(jLabel5))))
                 .addGap(97, 97, 97)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtidCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -135,7 +137,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtidCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -162,7 +164,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("LISTADO DE CLIENTES"));
 
-        jDatos.setModel(new javax.swing.table.DefaultTableModel(
+        tbCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -178,7 +180,12 @@ public class ClienteForm extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jDatos);
+        tbCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbCliente);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -218,6 +225,11 @@ public class ClienteForm extends javax.swing.JInternalFrame {
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Delete.png"))); // NOI18N
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnEliminar);
         jToolBar1.add(jSeparator2);
 
@@ -228,6 +240,11 @@ public class ClienteForm extends javax.swing.JInternalFrame {
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Modify.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnModificar);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -300,6 +317,72 @@ public class ClienteForm extends javax.swing.JInternalFrame {
         }         
 
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void tbClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClienteMouseClicked
+        if(evt.getButton()==1){
+            int fila = tbCliente.getSelectedRow();
+            int celda = (int) tbCliente.getValueAt(fila, 0);
+            lista = cli.listarCliente(celda);
+            for(int i=0;i<lista.size();i++){
+                txtidCliente.setText(""+lista.get(i).getIdCliente());
+                txtnombre.setText(lista.get(i).getNombres());
+                txtApellidos.setText(lista.get(i).getApellidos());
+                txtdireccion.setText(lista.get(i).getDireccion());
+                txttelefono.setText(""+lista.get(i).getTelefono());
+                jfecha.setDate(lista.get(i).getFecha_Nac());
+               
+            }
+        }                
+    }//GEN-LAST:event_tbClienteMouseClicked
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int fil = tbCliente.getSelectedRow();
+        if(fil<0){
+            JOptionPane.showMessageDialog(null, "Seleccionar El Empleado a MODIFICAR!");
+        }else{
+            int confirmar=JOptionPane.showConfirmDialog(null, "Esta seguro que desea MODIFICAR el Producto? ");
+            if(JOptionPane.OK_OPTION==confirmar) {
+                int id = Integer.parseInt(txtidCliente.getText());
+                String n = txtnombre.getText();
+                String ap = txtApellidos.getText();
+                String dir = txtdireccion.getText();
+               
+                int telf = Integer.parseInt(txttelefono.getText());
+                String fecha = ((JTextField)jfecha.getDateEditor().getUiComponent()).getText();
+                int x = cli.modificarClinete(id,n, ap, dir,telf,fecha);
+                
+                if(x==1){
+                    JOptionPane.showMessageDialog(null, "Empleado MODIFICADO!");
+                    updateComponets();
+                    limpiar();
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Empleado no se ha MODIFICADO!");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       int fila = tbCliente.getSelectedRow();
+        if(fila<0){
+            JOptionPane.showMessageDialog(null, "Seleccionar Empleado a ELIMINAR");
+        }else{
+            int confirmar=JOptionPane.showConfirmDialog(null, "Esta seguro que desea ELIMINAR el Usuario? ");
+            if(JOptionPane.OK_OPTION==confirmar) {
+                int celda = (int) tbCliente.getValueAt(fila, 0);
+                int x = cli.eliminarCliente(celda);
+                if(x==1){
+                    JOptionPane.showMessageDialog(null, "Empleado ELIMINADO!");
+                    updateComponets();
+                    limpiar();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Empleado no ELIMINADO!");
+                }
+            }
+
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 final void desabilitar (){
    txtApellidos.setEditable(false);
     btnAgregar.setEnabled(false);
@@ -309,7 +392,7 @@ final void desabilitar (){
 }
 
 void limpiar(){
-txtcodigo.setText(null);
+txtidCliente.setText(null);
 txtnombre.setText(null);
 txtApellidos.setText(null);
 txtdireccion.setText(null);
@@ -319,7 +402,7 @@ jfecha.setDateFormatString(null);
 final void listarCliente(){
     
     lista = cli.listarCliente();
-    model = (DefaultTableModel) jDatos.getModel();
+    model = (DefaultTableModel) tbCliente.getModel();
         Object[] user = new Object[6];
         for(int i=0;i<lista.size();i++){
             user[0]=lista.get(i).getIdCliente();
@@ -330,7 +413,7 @@ final void listarCliente(){
              user[5]=lista.get(i).getFecha_Nac();
             model.addRow(user);
         }        
-        jDatos.setModel(model);
+        tbCliente.setModel(model);
 }
 void LimpiarTabla(DefaultTableModel modelo){
         int a =modelo.getRowCount()-1;
@@ -353,7 +436,6 @@ void LimpiarTabla(DefaultTableModel modelo){
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JTable jDatos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -370,9 +452,10 @@ void LimpiarTabla(DefaultTableModel modelo){
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
     private com.toedter.calendar.JDateChooser jfecha;
+    private javax.swing.JTable tbCliente;
     private javax.swing.JTextField txtApellidos;
-    private javax.swing.JTextField txtcodigo;
     private javax.swing.JTextField txtdireccion;
+    private javax.swing.JTextField txtidCliente;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txttelefono;
     // End of variables declaration//GEN-END:variables

@@ -6,6 +6,7 @@
 
 package pe.edu.upeu.sysbazar.vista;
 
+import java.util.Calendar;
 import javax.swing.JInternalFrame;
 import pe.edu.upeu.sysbazar.control.ImagenFondo;
 
@@ -19,7 +20,7 @@ public class MENU extends javax.swing.JFrame {
     public MENU() {
         initComponents();
         jdEscritorio.setBorder(new ImagenFondo());
-       
+        mostrarFechaHora();
         setExtendedState(MAXIMIZED_BOTH);
     }
 
@@ -35,6 +36,10 @@ public class MENU extends javax.swing.JFrame {
         jdEscritorio = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblUs = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lbFecha = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -63,28 +68,55 @@ public class MENU extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(153, 0, 51));
         jLabel2.setText("BAZAR UPeU");
 
+        jLabel3.setText("USUARIO:");
+
+        jLabel4.setText("Fecha");
+
         javax.swing.GroupLayout jdEscritorioLayout = new javax.swing.GroupLayout(jdEscritorio);
         jdEscritorio.setLayout(jdEscritorioLayout);
         jdEscritorioLayout.setHorizontalGroup(
             jdEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jdEscritorioLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jdEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jdEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jdEscritorioLayout.createSequentialGroup()
+                        .addGroup(jdEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addContainerGap(79, Short.MAX_VALUE))
+                    .addGroup(jdEscritorioLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblUs, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43))))
         );
         jdEscritorioLayout.setVerticalGroup(
             jdEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jdEscritorioLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addContainerGap()
+                .addGroup(jdEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jdEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4))
+                    .addComponent(lblUs, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
         jdEscritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jdEscritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdEscritorio.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdEscritorio.setLayer(lblUs, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdEscritorio.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jdEscritorio.setLayer(lbFecha, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu1.setText("INICIO");
 
@@ -133,6 +165,11 @@ public class MENU extends javax.swing.JFrame {
         jMenu2.add(jMenuItem4);
 
         jMenuItem6.setText("CATEGORIA");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuItem7.setText("DETALLE_VENTA");
@@ -226,6 +263,12 @@ public class MENU extends javax.swing.JFrame {
        cat.show();
        
     }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+       CategoriaForm cat= new CategoriaForm();
+       jdEscritorio.add(cat);
+       cat.show();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 public void CentrarVentana(JInternalFrame internalframe){
 int x = (jdEscritorio.getWidth() / 2) - internalframe.getWidth() / 2;
 int y = (jdEscritorio.getHeight()/2)-(internalframe.getHeight()/2);
@@ -236,6 +279,12 @@ jdEscritorio.add(internalframe);
 internalframe.setLocation(x, y);
 internalframe.show();
 }
+}
+void mostrarFechaHora(){
+   
+   Calendar Cal= Calendar.getInstance();
+String fec= Cal.get(Cal.DATE)+"/"+(Cal.get(Cal.MONTH)+1)+"/"+Cal.get(Cal.YEAR)+" "+Cal.get(Cal.HOUR_OF_DAY)+":"+Cal.get(Cal.MINUTE)+":"+Cal.get(Cal.SECOND);
+   lbFecha.setText(fec);
 }
     /**
      * @param args the command line arguments
@@ -275,6 +324,8 @@ internalframe.show();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -291,6 +342,8 @@ internalframe.show();
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JDesktopPane jdEscritorio;
+    private javax.swing.JLabel lbFecha;
+    public static javax.swing.JLabel lblUs;
     // End of variables declaration//GEN-END:variables
 
 

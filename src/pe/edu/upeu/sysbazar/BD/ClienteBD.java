@@ -26,7 +26,7 @@ public class ClienteBD {
     Statement st;
     ResultSet rs;
     String sql;
-    public int ValidarCliente(String nombre,String apell, String Dir,String telf,String fecha_nac )
+    public int ValidarCliente(String nombre,String apell, String Dir,int telf,String fecha_nac )
     {
         sql="SELECT  * FROM  Cliente WHERE  nombres='"+nombre+"' AND apellidos='"+apell+"'"
                 + "' AND direccion='"+Dir+"'AND telefono='"+telf+"'AND fecha_nac='"+fecha_nac+"'";
@@ -107,7 +107,7 @@ public ArrayList<Cliente> listarCliente(){
         return lista;
     }
     public int modificarClinete(int idu, String nombre,String apell, String Dir,int telf, String fecha_nac){
-    sql="UPDATE Cliente set nombre='"+nombre+"', apellidos='"+apell+"', direccion='"+Dir+"', telefono='"+telf+"', fecha_nac='"+fecha_nac+"' WHERE idUsuario='"+idu+"'";
+    sql="UPDATE Cliente set nombres='"+nombre+"', apellidos='"+apell+"', direccion='"+Dir+"', telefono='"+telf+"', fecha_nac='"+fecha_nac+"' WHERE idCliente='"+idu+"'";
         try {
             cx = Conexion.GetConexion();
             st = cx.createStatement();
