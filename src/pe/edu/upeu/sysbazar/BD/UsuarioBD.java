@@ -145,6 +145,24 @@ public int eliminarUsuario(int idu){
         }  
     return res;
     }
+    public int BuscarUsuario(String idus){
+        if(idus.equals(""))
+        {
+            sql="SELECT * FROM Usuario";
+        }
+        else{
+    sql="SELECT * FROM Usuario WHERE CONCAT (idUsuario,'',usuario) LIKE '%"+idus+"%'";
+        }try {
+           cx=Conexion.GetConexion();
+              st=cx.createStatement();
+              rs=st.executeQuery(sql);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error: "+ex);
+        }  
+    return res;
+    }
+    
+    
     public ArrayList<Usuario> listarUsuario(String us){
     ArrayList<Usuario> lista = new ArrayList();
         sql = "select *from Usuario WHERE usuario LIKE '"+us+"'%";

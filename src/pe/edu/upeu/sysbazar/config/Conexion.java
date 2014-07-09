@@ -26,4 +26,8 @@ public class Conexion {
     
     return conex;
     }
+
+    public java.sql.Connection conex() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

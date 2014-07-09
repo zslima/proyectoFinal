@@ -36,7 +36,7 @@ UsuarioBD ud= new UsuarioBD();
         txtUsuario = new javax.swing.JTextField();
         jpasCLAVE = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -67,8 +67,8 @@ UsuarioBD ud= new UsuarioBD();
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 370, -1, -1));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/userH.png"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, -1, 270));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/User_Control.png"))); // NOI18N
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 230, 250));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -89,7 +89,11 @@ UsuarioBD ud= new UsuarioBD();
                 MENU m= new MENU();
                 m.setVisible(true);
                 MENU.lblUs.setText(""+usuario);
+                Ventasfrm v = new Ventasfrm();
+                v.setVisible(true);
+                Ventasfrm.lblUs.setName(usuario);
                 this.dispose();
+                
             }else{
                JOptionPane.showMessageDialog(null,"USUARIO Y CLAVE INCORRECTO.","Error",JOptionPane.ERROR_MESSAGE);
                txtUsuario.requestFocus();
@@ -148,7 +152,7 @@ UsuarioBD ud= new UsuarioBD();
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jpasCLAVE;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

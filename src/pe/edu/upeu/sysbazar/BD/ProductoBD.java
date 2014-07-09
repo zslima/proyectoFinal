@@ -27,9 +27,9 @@ public class ProductoBD {
     ResultSet rs;
     String sql;
     
-    public int ValidarProducto(String prod, int cant,double precio)
+    public int ValidarProducto(String prod, int stc,double precio)
     {
-        sql="SELECT  * FROM  Productos WHERE  producto='"+prod+"' AND cantidad='"+cant+"' AND precio='"+precio+"'";
+        sql="SELECT  * FROM  Productos WHERE  producto='"+prod+"' AND stock='"+stc+"' AND precio='"+precio+"'";
         try {
             cx=Conexion.GetConexion(); 
             st=cx.createStatement();
@@ -47,9 +47,9 @@ public class ProductoBD {
         }
         return res;
     }
-    public int registrarProducto(int idc, String prod, int cant,double precio)
+    public int registrarProducto(int idc, String prod, int stock,double precio)
     {
-        sql="INSERT INTO Productos VALUES(null,'"+idc+"', '"+prod+"', '"+cant+"', '"+precio+"')";
+        sql="INSERT INTO Productos VALUES(null,'"+idc+"', '"+prod+"', '"+stock+"', '"+precio+"')";
         try {
              cx=Conexion.GetConexion();
               st=cx.createStatement();
@@ -136,8 +136,8 @@ public int eliminarProducto(int idp){
         }
         return lista;
     } 
-    public int modificarProducto(int idp,int idc, String prod, int cant,double precio ){
-    sql="UPDATE Productos set producto='"+prod+"', cantidad='"+cant+"', precio='"+precio+"' WHERE idProducto='"+idp+"'AND idCategoria='"+idc+"' ";
+    public int modificarProducto(int idp,int idc, String prod, int stock,double precio ){
+    sql="UPDATE Productos set producto='"+prod+"', stock='"+stock+"', precio='"+precio+"' WHERE idProducto='"+idp+"'AND idCategoria='"+idc+"' ";
         try {
             cx = Conexion.GetConexion();
             st = cx.createStatement();
@@ -161,5 +161,20 @@ public int eliminarProducto(int idp){
             JOptionPane.showMessageDialog(null, "Error: "+ex);
         }   
     return lista;
+    }
+     public int idProducto(String nom){
+    int id=0;
+    sql ="SELECT *FROM Productos WHERE producto='"+nom+"'";
+    try {
+            cx = Conexion.GetConexion();
+            st = cx.createStatement();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+                id = rs.getInt("idProducto");
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error: "+ex);
+        }  
+    return id;
     }
 }

@@ -48,7 +48,7 @@ public class ClienteBD {
     //-----------------------------------------------------------------------------------------------------
     public int  verificarCliente(String  nomb )
     {
-        sql="SELECT *FROM Cliente WHERE nombre='"+nomb+"'";
+        sql="SELECT *FROM Cliente WHERE nombres='"+nomb+"'";
         try { 
               cx=Conexion.GetConexion();
               st=cx.createStatement();
@@ -146,7 +146,7 @@ public ArrayList<Cliente> listarCliente(){
  
     public ArrayList<Cliente> listarCliente(String nomb){
         ArrayList<Cliente> lista = new ArrayList();
-        sql="Select *from Cliente WHERE nombre LIKE '"+nomb+"'";
+        sql="Select *from Cliente WHERE nombres LIKE '"+nomb+"'";
         try {
             cx = Conexion.GetConexion();
             st=cx.createStatement();
@@ -174,5 +174,20 @@ public ArrayList<Cliente> listarCliente(){
             JOptionPane.showMessageDialog(null,"ERROR:" +e);
         }
     return idcli;
+    }
+      public int idCliente(String nom){
+    int id=0;
+    sql ="SELECT *FROM Cliente WHERE nombres='"+nom+"'";
+    try {
+            cx = Conexion.GetConexion();
+            st = cx.createStatement();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+                id = rs.getInt("idcliente");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null,"ERROR:" +e);
+        }
+    return id;
     }
 }

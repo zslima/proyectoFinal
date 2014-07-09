@@ -6,12 +6,14 @@
 
 package pe.edu.upeu.sysbazar.BD;
 
+import com.mysql.jdbc.ResultSetMetaData;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import pe.edu.upeu.sysbazar.config.Conexion;
 import pe.edu.upeu.sysbazar.modelo.Empleado;
 
@@ -172,6 +174,53 @@ public class EmpleadoBD {
             JOptionPane.showMessageDialog(null, "Error: "+ex);
         }    
     return res;
+    }
+     public DefaultTableModel retornarDatos(String sentenciaSQL){
+         
+         DefaultTableModel modelo = new DefaultTableModel();
+         {
+             try {
+                 ResultSet reFotos = consulta(sentenciaSQL);
+                 ResultSetMetaData metadatos = (ResultSetMetaData) reFotos.getMetaData();
+                 int numeroColumnas=metadatos.getColumnCount();
+                 Object[] etiquetas = new Object[numeroColumnas];
+                 for (int i = 0; i < numeroColumnas; i++) {
+                     etiquetas [i]= metadatos.getColumnLabel(+1);
+                     
+                 }
+                 modelo.setColumnIdentifiers(etiquetas);
+                 while (reFotos.next()) {
+                     Object[] datosFila= new Object[modelo.getColumnCount()];
+                     for (int i = 0; i < modelo.getColumnCount(); i++) {
+                         datosFila[i]=reFotos.getObject(i+1);
+                     }
+                     modelo.addRow(datosFila);
+                 }
+             } catch (Exception e) {
+                 System.out.printf("no se encontro");
+             }
+             return modelo;
+         }
+         
+     }
+     public int idEmpleado(String nom){
+    int id=0;
+    sql ="SELECT *FROM Empleado WHERE nombres='"+nom+"'";
+    try {
+            cx = Conexion.GetConexion();
+            st = cx.createStatement();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+                id = rs.getInt("idempleado");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null,"ERROR:" +e);
+        }
+    return id;
+    }
+
+    private ResultSet consulta(String sentenciaSQL) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

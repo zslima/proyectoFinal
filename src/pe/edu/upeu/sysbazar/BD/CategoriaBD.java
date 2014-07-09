@@ -161,7 +161,7 @@ public int eliminarCategoria(int idc){
         }  
     return res;
     }
-    public ArrayList<Categoria> listarUsuario(String cat){
+    public ArrayList<Categoria> listarCategoria(String cat){
     ArrayList<Categoria> lista = new ArrayList();
         sql = "select *from Categoria WHERE categoria LIKE '"+cat+"'%";
         try {
@@ -176,5 +176,24 @@ public int eliminarCategoria(int idc){
         }   
     return lista;
     }
-    
+     public int buscarCategoriaNom(String cat){
+         if(cat.equals(""))
+        {
+            sql="SELECT * FROM Categoria";
+        }
+        int idcat=0;
+         sql = "SELECT *FROM Categoria WHERE CONCAT (idCategoria,'',categoria) LIKE '%"+cat+"%'";
+        try {
+            cx = Conexion.GetConexion();
+            st = cx.createStatement();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+                
+            idcat = rs.getInt("Categoria");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null,"ERROR:" +e);
+        }
+    return idcat;
+    }
 }

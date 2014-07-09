@@ -47,9 +47,9 @@ public class VentaBD {
         }
         return res;
     }
-    public int registrarVenta(int idemp, int idcli, String fec,String hora ,int cod_doc,String tipo_doc)
-    {
-        sql="INSERT INTO venta VALUES(null,'"+idemp+"', '"+idcli+"', '"+fec+"', '"+hora+"', '"+cod_doc+"', '"+tipo_doc+"')";
+    public int registrarVenta( int idemp,int idcli, String fec,int cod_doc,String tipo_doc)
+    { int idp = maxIdIventa()+ 1;
+        sql="INSERT INTO venta VALUES(null,null, '"+idemp+"', '"+idcli+"', '"+fec+"',null, '"+cod_doc+"', '"+tipo_doc+"')";
         try {
              cx=Conexion.GetConexion();
               st=cx.createStatement();
@@ -162,5 +162,20 @@ public int eliminarVenta(int idv){
         }   
     return lista;
     }
+    public int maxIdIventa(){
+    int v =0;
+    sql = "SELECT MAX(idventa) AS id FROM Venta";
+        try {
+            cx = Conexion.GetConexion();
+            st = cx.createStatement();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+                    v = rs.getInt("id");
+                }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error: "+ex);
+        }   
+    return v;
+    }
     
-}
+ }

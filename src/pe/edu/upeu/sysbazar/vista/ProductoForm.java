@@ -57,7 +57,7 @@ public class ProductoForm extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         cboCategoria = new javax.swing.JComboBox();
         txtidcategoria = new javax.swing.JTextField();
-        txtcantidad = new javax.swing.JTextField();
+        txtstock = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtproducto = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -85,7 +85,7 @@ public class ProductoForm extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Id", "Categoria", "Producto", "Precio", "Cantidad"
+                "Id", "Categoria", "Producto", "Precio", "Stocks"
             }
         ));
         tbproducto.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -127,7 +127,7 @@ public class ProductoForm extends javax.swing.JInternalFrame {
 
         txtidcategoria.setEnabled(false);
 
-        jLabel4.setText("Cantidad:");
+        jLabel4.setText("Stock");
 
         jLabel2.setText("Producto:");
 
@@ -154,7 +154,7 @@ public class ProductoForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtstock, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(cboCategoria, 0, 142, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
@@ -191,7 +191,7 @@ public class ProductoForm extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtcantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtstock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,9 +317,9 @@ public class ProductoForm extends javax.swing.JInternalFrame {
         if(cboCategoria.getSelectedIndex()!=0){
             int idc = Integer.parseInt(txtidcategoria.getText());
             String prod = txtproducto.getText();
-            int c = Integer.parseInt(txtcantidad.getText());
+            int stc = Integer.parseInt(txtstock.getText());
             double pre = Double.parseDouble(txtprecio.getText());
-            int O = pdao.registrarProducto(idc, prod, c, pre);
+            int O = pdao.registrarProducto(idc, prod, stc, pre);
             limpiar();
             if(O >0){
                 JOptionPane.showMessageDialog(this, "Exitoso");}
@@ -365,9 +365,9 @@ public class ProductoForm extends javax.swing.JInternalFrame {
                 int id = Integer.parseInt(txtidProducto.getText());
                 int idc = Integer.parseInt(txtidcategoria.getText());
                 String p = txtproducto.getText();
-                int c = Integer.parseInt(txtcantidad.getText());
+                int stc = Integer.parseInt(txtstock.getText());
                 double pr = Double.parseDouble(txtprecio.getText());
-                int x = pdao.modificarProducto(id,idc, p, c,pr);
+                int x = pdao.modificarProducto(id,idc, p, stc,pr);
                 
                 if(x==1){
                     JOptionPane.showMessageDialog(null, "Producto MODIFICADO!");
@@ -390,7 +390,7 @@ public class ProductoForm extends javax.swing.JInternalFrame {
                 txtidcategoria.setText(""+lista1.get(i).getIdc());
                 txtidProducto.setText(""+lista1.get(i).getIdp());
                 txtproducto.setText(lista1.get(i).getNombrep());
-                txtcantidad.setText(""+lista1.get(i).getCantidad());
+                txtstock.setText(""+lista1.get(i).getStock());
                 txtprecio.setText(""+lista1.get(i).getPrecio());
                
             }
@@ -410,7 +410,7 @@ txtidcategoria.setText(null);
 txtproducto.setText(null);
 txtidProducto.setText(null);
 txtprecio.setText(null);
-txtcantidad.setText(null);
+txtstock.setText(null);
 cboCategoria.setSelectedIndex(0);
 
 }
@@ -423,7 +423,7 @@ final void listarProducto(){
             user[1]=lista1.get(i).getIdc();
             user[2]=lista1.get(i).getNombrep();
             user[3]=lista1.get(i).getPrecio();
-            user[4]=lista1.get(i).getCantidad();
+            user[4]=lista1.get(i).getStock();
             model.addRow(user);
         }        
         tbproducto.setModel(model);
@@ -485,10 +485,10 @@ void LimpiarTabla(DefaultTableModel modelo){
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbproducto;
-    private javax.swing.JTextField txtcantidad;
     private javax.swing.JTextField txtidProducto;
     private javax.swing.JTextField txtidcategoria;
     private javax.swing.JTextField txtprecio;
     private javax.swing.JTextField txtproducto;
+    private javax.swing.JTextField txtstock;
     // End of variables declaration//GEN-END:variables
 }

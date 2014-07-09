@@ -37,7 +37,7 @@ categoria.`categoria`=$P{cat}]]>
 					<text><![CDATA[TITLE]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="b659b675-dac5-4b68-8859-b48d8f44d7f2" x="395" y="43" width="180" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="b659b675-dac5-4b68-8859-b48d8f44d7f2" x="355" y="31" width="180" height="20" forecolor="#FFFFFF"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>

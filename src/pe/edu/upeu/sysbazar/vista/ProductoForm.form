@@ -111,7 +111,7 @@
                     <Column editable="true" title="Categoria" type="java.lang.Object"/>
                     <Column editable="true" title="Producto" type="java.lang.Object"/>
                     <Column editable="true" title="Precio" type="java.lang.Object"/>
-                    <Column editable="true" title="Cantidad" type="java.lang.Object"/>
+                    <Column editable="true" title="Stocks" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -155,7 +155,7 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtprecio" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
-                              <Component id="txtcantidad" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
+                              <Component id="txtstock" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="cboCategoria" pref="142" max="32767" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -204,7 +204,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtcantidad" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtstock" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
@@ -243,11 +243,11 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtcantidad">
+        <Component class="javax.swing.JTextField" name="txtstock">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cantidad:"/>
+            <Property name="text" type="java.lang.String" value="Stock"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtproducto">

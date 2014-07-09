@@ -6,14 +6,28 @@
 
 package pe.edu.upeu.sysbazar.vista;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pe.edu.upeu.sysbazar.BD.EmpleadoBD;
 import pe.edu.upeu.sysbazar.BD.UsuarioBD;
+import pe.edu.upeu.sysbazar.config.Conexion;
 import pe.edu.upeu.sysbazar.modelo.Empleado;
 import pe.edu.upeu.sysbazar.modelo.Usuario;
 
@@ -24,7 +38,7 @@ import pe.edu.upeu.sysbazar.modelo.Usuario;
  * @author lima
  */
 public  class UsuarioForm extends javax.swing.JInternalFrame {
-  
+    
     EmpleadoBD ep = new EmpleadoBD();
     UsuarioBD udb = new UsuarioBD();
     ArrayList<Empleado> lista = new ArrayList();
@@ -32,11 +46,14 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
     DefaultTableModel model;
     DefaultComboBoxModel modelocombo = new DefaultComboBoxModel();
     DefaultListModel modelolista =  new DefaultListModel();
+    private FileInputStream imagen;
 
     public UsuarioForm() {
         initComponents();
         cargarEmpleado();
         listarUsuario();
+        //mostrarBusqueda("");
+   
         
         //desabilitar();
         
@@ -50,8 +67,6 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         txtUsuario = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtIdUsuario = new javax.swing.JTextField();
@@ -60,6 +75,12 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         cboEmpleado = new javax.swing.JComboBox();
         txtIdEmpleado = new javax.swing.JTextField();
+        txtbuscar = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        pnlFoto = new javax.swing.JPanel();
+        pnlImagen = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListaUsuario = new javax.swing.JTable();
@@ -75,6 +96,7 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
         jSeparator3 = new javax.swing.JToolBar.Separator();
         btnBuscar = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(204, 204, 255));
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -86,19 +108,14 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
                 txtUsuarioKeyPressed(evt);
             }
         });
-        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 110, -1));
+        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 100, -1));
 
-        jLabel2.setText("USUARIO");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, -1, -1));
-
-        jLabel3.setText("PASSWORD:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
-
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("datos de usuario"));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("idUsuario");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         txtIdUsuario.setEditable(false);
         jPanel1.add(txtIdUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 50, -1));
@@ -108,26 +125,80 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
                 txtpassKeyReleased(evt);
             }
         });
-        jPanel1.add(txtpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 80, -1));
+        jPanel1.add(txtpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 100, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Profile.png"))); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 40, 50));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 40, 30));
 
         jLabel5.setText("Empleado");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
 
         cboEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboEmpleadoActionPerformed(evt);
             }
         });
-        jPanel1.add(cboEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 150, 40));
+        jPanel1.add(cboEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, 150, 30));
 
         txtIdEmpleado.setEditable(false);
-        jPanel1.add(txtIdEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 20, 40, 40));
+        jPanel1.add(txtIdEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 40, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 600, 160));
+        txtbuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtbuscarMouseClicked(evt);
+            }
+        });
+        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyReleased(evt);
+            }
+        });
+        jPanel1.add(txtbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 220, -1));
 
+        jLabel6.setText("BUSCAR");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        jLabel2.setText("USUARIO");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+
+        jLabel3.setText("PASSWORD:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 20));
+
+        pnlFoto.setBorder(javax.swing.BorderFactory.createTitledBorder("Foto"));
+        pnlFoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlFotoMouseClicked(evt);
+            }
+        });
+
+        pnlImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/defaultlarge.gif"))); // NOI18N
+        pnlImagen.setMaximumSize(new java.awt.Dimension(32767, 32767));
+        pnlImagen.setName(""); // NOI18N
+        pnlImagen.setOpaque(true);
+        pnlImagen.setPreferredSize(new java.awt.Dimension(128, 117));
+        pnlImagen.setRequestFocusEnabled(false);
+        pnlImagen.setVerifyInputWhenFocusTarget(false);
+
+        javax.swing.GroupLayout pnlFotoLayout = new javax.swing.GroupLayout(pnlFoto);
+        pnlFoto.setLayout(pnlFotoLayout);
+        pnlFotoLayout.setHorizontalGroup(
+            pnlFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFotoLayout.createSequentialGroup()
+                .addComponent(pnlImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlFotoLayout.setVerticalGroup(
+            pnlFotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFotoLayout.createSequentialGroup()
+                .addComponent(pnlImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel1.add(pnlFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 170, 170));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 630, 190));
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("LISTADO DE USUARIOS"));
 
         jListaUsuario.setModel(new javax.swing.table.DefaultTableModel(
@@ -154,7 +225,7 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -162,8 +233,9 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 600, 190));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 630, 190));
 
+        jPanel3.setBackground(new java.awt.Color(204, 204, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("OPERACIONES"));
 
         jToolBar1.setBackground(new java.awt.Color(255, 255, 255));
@@ -219,7 +291,7 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -229,7 +301,7 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
                 .addGap(0, 7, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 600, 90));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 630, 90));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -355,8 +427,46 @@ public  class UsuarioForm extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
        limpiar(); // TODO add your handling code here:
-       
+       updateComponets();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void txtbuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtbuscarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbuscarMouseClicked
+
+    private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
+        // TODO add your handling code here:
+       mostrarBusqueda(txtbuscar.getText());
+    }//GEN-LAST:event_txtbuscarKeyReleased
+
+    private void pnlFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlFotoMouseClicked
+    if(pnlFoto.isEnabled())
+    {
+        JFileChooser se = new JFileChooser();
+        se.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        se.setMultiSelectionEnabled(false);
+        
+        int estado = se.showOpenDialog(null);
+        if(estado == JFileChooser.APPROVE_OPTION)
+        {
+            try {
+               // Thumbnail tn;
+                imagen = new FileInputStream(se.getSelectedFile());
+                Image icono = ImageIO.read(imagen).getScaledInstance(300, 200, Image.SCALE_AREA_AVERAGING);
+               // tn = new Thumbnail(icono,System.getProperty("user.dir")+"/"+se.getSelectedFile().getName());
+                //imagen = tn.generarThumbnail();
+                this.pnlImagen.setIcon(new ImageIcon(System.getProperty("user.dir")+"/"+se.getSelectedFile().getName()));
+                this.pnlImagen.updateUI();
+                //dat = new DatoArchivo(imagen,(int)se.getSelectedFile().length());
+                    
+            } catch (FileNotFoundException ex) {
+               // Logger.getLogger(IUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (IOException ex) {
+                        //Logger.getLogger(IUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        }
+    }
+    }//GEN-LAST:event_pnlFotoMouseClicked
 void desabilitar (){
    txtpass.setEditable(false);
     btnAgregar.setEnabled(true);
@@ -432,6 +542,45 @@ void LimpiarTabla(DefaultTableModel modelo){
         }
     
  }
+ void mostrarBusqueda(String valor)
+    { 
+      DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("IdEMPLEADO");
+        modelo.addColumn("USUARIO");
+        modelo.addColumn("PASSWORD");
+        
+        jListaUsuario.setModel(modelo);
+        String sql ="";
+        if(valor.equals(""))
+        {
+            sql="SELECT * FROM usuario";
+        }
+        else{
+            sql="SELECT * FROM usuario WHERE usuario LIKE '%"+valor+"%'";
+        }
+        String [] datos = new  String [5];
+        try {
+            Connection cx=Conexion.GetConexion(); 
+            Statement st = cx.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next())
+            {
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                modelo.addRow(datos);
+            }
+            jListaUsuario.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null,"ERROR"+ex);
+        }
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
@@ -444,6 +593,7 @@ void LimpiarTabla(DefaultTableModel modelo){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTable jListaUsuario;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -454,9 +604,12 @@ void LimpiarTabla(DefaultTableModel modelo){
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JPanel pnlFoto;
+    private javax.swing.JLabel pnlImagen;
     private javax.swing.JTextField txtIdEmpleado;
     private javax.swing.JTextField txtIdUsuario;
     private javax.swing.JTextField txtUsuario;
+    private javax.swing.JTextField txtbuscar;
     private javax.swing.JPasswordField txtpass;
     // End of variables declaration//GEN-END:variables
 }
